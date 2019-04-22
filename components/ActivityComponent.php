@@ -33,7 +33,7 @@ class ActivityComponent extends Component
      */
     public function createActivity(&$model):bool{
         if (!$model->validate()) {
-            print_r($model->getErrors());
+//            print_r($model->getErrors());
 
             return false;
         }
