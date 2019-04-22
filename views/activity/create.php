@@ -29,6 +29,9 @@
         <?=$form->field($model,'repeatCount')
             ->dropDownList($model->getRepeatCountList())?>
         <?=$form->field($model,'repeatInterval')->input('number',['value'=>'0']);?>
+
+        <?=$form->field($model,'file')->fileInput()?>
+
         <div class="form-group">
             <button class="btn btn-success" type="submit">Добавить</button>
         </div>

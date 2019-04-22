@@ -29,8 +29,9 @@ class ActivityCreateAction extends Action
                 \Yii::$app->response->format=Response::FORMAT_JSON;
                 return ActiveForm::validate($model);
             }
-            if ($component->createActivity($model)) {
 
+            if ($component->createActivity($model)) {
+                return $this->controller->render('view',['model'=>$model]);
             }
         }
         return $this->controller->render('create', ['model' => $model]);

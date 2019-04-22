@@ -25,6 +25,8 @@ class Activity extends Model
     public $repeatCount;
     public $repeatInterval;
 
+    public $file;
+
     private $repeatCountList=[0=>'Не повторять',1=>'Один раз'];
 
     public function getRepeatCountList(){
@@ -56,6 +58,7 @@ class Activity extends Model
             ['email','required','when' => function($model){
                 return $model->useNotification==1;
             }],
+            ['file','file','extensions' => ['jpg','png','pdf']],
 //            ['title','stopTitle'],
             [['title'],StopTitleValidator::class,'letters' => [1,2]],
 //            ['repeatCount','number','integerOnly' => true,'min' => 0],
