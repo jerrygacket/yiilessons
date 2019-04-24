@@ -6,6 +6,7 @@ namespace app\components;
 
 use app\models\Day;
 use yii\base\Component;
+use yii\helpers\FileHelper;
 
 class DayComponent extends Component
 {
@@ -24,6 +25,21 @@ class DayComponent extends Component
      * @return Day
      */
     public function getModel() {
-        return new $this->dayClass;
+
+        $day = new $this->dayClass;
+        $day->activities = $this->getActivities();
+
+        return $day;
+    }
+
+    public function getActivities($dayId=null){
+        FileHelper::createDirectory(\Yii::getAlias('@webroot/activities'));
+        $files = FileHelper::findFiles(\Yii::getAlias('@webroot/activities/'));
+        $activities = [];
+        foreach ($files as $jsonFile) {
+            $activities[] = json_decode(file($jsonFile)[0]);
+        }
+
+        return $activities;
     }
 }

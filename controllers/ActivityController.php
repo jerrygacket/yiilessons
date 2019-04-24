@@ -11,6 +11,7 @@ namespace app\controllers;
 
 use app\base\BaseController;
 use app\controllers\actions\ActivityCreateAction;
+use app\controllers\actions\ActivityEditAction;
 use app\controllers\actions\ActivityIndexAction;
 
 class ActivityController extends BaseController
@@ -21,6 +22,7 @@ class ActivityController extends BaseController
             'create'=>['class'=>ActivityCreateAction::class],
             'new'=>['class'=>ActivityCreateAction::class],
             'index'=>['class'=>ActivityIndexAction::class],
+            'edit'=>['class'=>ActivityCreateAction::class],
         ];
     }
 }
