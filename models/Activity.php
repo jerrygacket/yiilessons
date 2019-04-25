@@ -3,11 +3,13 @@
 namespace app\models;
 
 
+use app\models\rules\isRepeatValidator;
 use app\models\rules\StopTitleValidator;
 use yii\base\Model;
 
 class Activity extends Model
 {
+    public $activityId = null;
     public $title;
     public $description;
     public $startDate;
@@ -26,6 +28,8 @@ class Activity extends Model
     public $repeatInterval;
 
     public $file;
+    public $files = [];
+    public $uploadedFiles = [];
 
     private $repeatCountList=[0=>'Не повторять',1=>'Один раз'];
 
@@ -48,29 +52,34 @@ class Activity extends Model
     {
         return [
             ['title','required'],
-            ['description','string','min' => 10],
             ['title','trim'],
-//            ['description','match','pattern' => '/[a-z]{1,}/iu'],
+            [['title'],StopTitleValidator::class],
+
+            ['description','match', 'pattern' => '/^[a-z]{10,16}$/', 'message'=>'Не менее 10 и не более 16 МАЛЕНЬКИХ ЛАТИНСКИХ букв. Никаких цифр, пробелов и прочего.'],
+
             ['startDate','date','format' => 'php:Y-m-d'],
+            ['startDate','match', 'pattern' => '/^[0-9]{2}.[0-9]{2}.[0-9]{4}$/', 'message'=>'Неправильная дата. Дата должна быть в формате дд.мм.гггг'],
+            ['startDate','required'],
+
             [['isBlocking','useNotification','isRepeat'],'boolean'],
+
             ['email','email','message' => 'Емелй не прошел валидацию'],
-            ['emailRepeat','compare','compareAttribute'=>'email'],
-            ['email','required','when' => function($model){
-                return $model->useNotification==1;
+            [['email','emailRepeat'],'required','when' => function($model){
+                return $model->useNotification == 1;
             }],
-            ['file','file','extensions' => ['jpg','png','pdf']],
-//            ['title','stopTitle'],
-            [['title'],StopTitleValidator::class,'letters' => [1,2]],
-//            ['repeatCount','number','integerOnly' => true,'min' => 0],
+            ['emailRepeat','compare','compareAttribute'=>'email', 'operator'=>'==', 'message' => 'Емелй не совпадают'],
+
+            ['uploadedFiles','file','extensions' => ['jpg','png','pdf'],'maxFiles' => 4],
+
             ['repeatCount','in','range' => array_keys($this->repeatCountList)],
+            ['repeatCount','compare','compareValue'=>0,'operator'=>'>','when' => function($model){
+                return $model->isRepeat == 1;
+            }, 'message' => 'Нужно выбрать число повторов'],
+            ['repeatInterval','compare','compareValue'=>0,'operator'=>'>','when' => function($model){
+                return $model->isRepeat == 1;
+            }, 'message' => 'Нужно выбрать интервал повторов'],
             ['repeatInterval','number','integerOnly' => true,'min' => 0],
         ];
-    }
-
-    public function stopTitle($attr){
-        if($this->$attr=='admin'){
-            $this->addError('title','Значени заголовка не допустимо');
-        }
     }
 
     public function attributeLabels()
@@ -79,10 +88,13 @@ class Activity extends Model
             'title' => 'Заголовок',
             'description' => 'Описание',
             'startDate' => 'Дата начала',
+            'useNotification' => 'Уведомлять',
+            'emailRepeat' => 'Email еще раз',
             'isBlocking' => 'Блокирующее',
             'isRepeat' => 'Повторять',
             'repeatCount' => 'Количество повторов',
             'repeatInterval' => 'Почторять через, с',
+            'uploadedFiles' => 'Файлы',
         ];
     }
 }

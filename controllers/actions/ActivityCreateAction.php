@@ -19,7 +19,8 @@ class ActivityCreateAction extends Action
      */
     public function run()
     {
-        $model = \Yii::$app->activity->getModel();
+        //$model = \Yii::$app->activity->getModel();
+        $model = \Yii::$app->activity->getModel(\Yii::$app->request->get('activityId'));
         $component = \Yii::createObject(['class' => ActivityComponent::class, 'activityClass' => Activity::class]);
 
 
@@ -31,9 +32,10 @@ class ActivityCreateAction extends Action
             }
 
             if ($component->createActivity($model)) {
-                return $this->controller->render('view',['model'=>$model]);
+                return $this->controller->render('index',['model'=>$model]);
             }
         }
+
         return $this->controller->render('create', ['model' => $model]);
     }
 }

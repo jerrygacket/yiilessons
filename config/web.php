@@ -20,6 +20,12 @@ $config = [
     'components' => [
         'activity' => ['class'=>\app\components\ActivityComponent::class,'activityClass'=>'\app\models\Activity'],
         'day' => ['class'=>\app\components\DayComponent::class,'dayClass'=>'\app\models\Day'],
+        'formatter' => [
+            'dateFormat' => 'dd.MM.yyyy',
+            'locale' => 'ru_RU',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'RUR',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '3PywPOVdx3ZEdcoMnU-j5tfZzpv8HltH',

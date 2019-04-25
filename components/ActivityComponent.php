@@ -25,8 +25,27 @@ class ActivityComponent extends Component
     /**
      * @return Activity
      */
-    public function getModel() {
-        return new $this->activityClass;
+    public function getModel($activityId = null) {
+        if (empty($activityId)) {
+            return new $this->activityClass;
+        }
+
+        // здесь получаем сущность пока что из файла.
+        $activity = new $this->activityClass($this->getActivity($activityId));
+
+        return $activity;
+    }
+
+    /**
+     * @param $activityId
+     * @return array
+     * @throws \yii\base\Exception
+     */
+    private function getActivity($activityId):object {
+        FileHelper::createDirectory(\Yii::getAlias('@webroot/activities'));
+        $jsonFile = \Yii::getAlias('@webroot/activities/').$activityId.'.json';
+
+        return json_decode(file($jsonFile)[0]);
     }
 
     /**
@@ -34,27 +53,32 @@ class ActivityComponent extends Component
      * @return bool
      */
     public function createActivity(&$model):bool{
-        $model->file=$this->getUploadedFile($model,'file');
-
-
+//        $model->file=$this->getUploadedFile($model,'file');
+        $model->uploadedFiles=$this->getUploadedFile($model,'uploadedFiles');
 
         if (!$model->validate()) {
-//            print_r($model->getErrors());
+            $model->getErrors();
             return false;
         }
 
-        if($model->file){
-
-            $path=$this->genFilePath($this->genFileName($model->file));
-            if(!$this->saveUploadedFile($model->file,$path)){
-                $model->addError('file','Не удалось сохранить файл');
-                return false;
-            }else{
-                $model->file=basename($path);
-            }
+        if (empty($model->activityId)){
+            $model->activityId = uniqid();
         }
 
-        return true;
+        if(!empty($model->uploadedFiles)) {
+            foreach ($model->uploadedFiles as $file) {
+                $path=$this->genFilePath($this->genFileName($file));
+                if(!$this->saveUploadedFile($file,$path)){
+                    $model->addError('file','Не удалось сохранить файл');
+                    return false;
+                }else{
+                    $model->files[]=basename($path);
+                }
+            }
+
+        }
+
+        return $this->saveToDb($model);
     }
 
     private function saveUploadedFile(UploadedFile $file,$path):bool{
@@ -75,10 +99,25 @@ class ActivityComponent extends Component
     /**
      * @param Activity $model
      * @param $attr
-     * @return UploadedFile|null
+     * @return UploadedFile[]
      */
     private function getUploadedFile(Activity $model,$attr){
-        $file=UploadedFile::getInstance($model,$attr);
-        return $file;
+        return UploadedFile::getInstances($model,$attr);
+    }
+
+    /**
+     * @param $model
+     * @return bool|int
+     * @throws \yii\base\Exception
+     */
+    private function saveToDb($model){
+        // сохраняем в файл
+        FileHelper::createDirectory(\Yii::getAlias('@webroot/activities'));
+        $jsonFile= \Yii::getAlias('@webroot/activities/'.$model->activityId.'.json');
+        $fp = fopen($jsonFile, 'w');
+        $result = fwrite($fp, json_encode($model->toArray()));
+        fclose($fp);
+
+        return $result;
     }
 }
