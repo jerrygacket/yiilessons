@@ -5,28 +5,17 @@ namespace app\components;
 
 
 use app\models\Day;
-use yii\base\Component;
 use yii\helpers\FileHelper;
 
-class DayComponent extends Component
+class DayComponent extends \app\base\BaseComponent
 {
-    public $dayClass;
-
-    public function init()
-    {
-        parent::init();
-
-        if (empty($this->dayClass)){
-            throw new \Exception('no day Class Name');
-        }
-    }
 
     /**
      * @return Day
      */
     public function getModel() {
 
-        $day = new $this->dayClass;
+        $day = new $this->nameClass;
         $day->activities = $this->getActivities();
 
         return $day;
