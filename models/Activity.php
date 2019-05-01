@@ -19,8 +19,6 @@ class Activity extends Model
 
     public $useNotification;
 
-
-
     public $isBlocking;
 
     public $isRepeat;

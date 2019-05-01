@@ -1,7 +1,10 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
+
+$db = file_exists(__DIR__ . '/db_local.php')
+    ? (require __DIR__ . '/db_local.php')
+    : (require __DIR__ . '/db.php');
 
 $config = [
     'id' => 'basic',
@@ -18,8 +21,9 @@ $config = [
         ],
     ],
     'components' => [
-        'activity' => ['class'=>\app\components\ActivityComponent::class,'activityClass'=>'\app\models\Activity'],
-        'day' => ['class'=>\app\components\DayComponent::class,'dayClass'=>'\app\models\Day'],
+        'activity' => ['class'=>\app\components\ActivityComponent::class,'nameClass'=>'\app\models\Activity'],
+        'day' => ['class'=>\app\components\DayComponent::class,'nameClass'=>'\app\models\Day'],
+        'dao' => ['class'=>\app\components\DaoComponent::class,'nameClass'=>'\app\models\Dao'],
         'formatter' => [
             'dateFormat' => 'dd.MM.yyyy',
             'locale' => 'ru_RU',

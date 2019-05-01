@@ -5,33 +5,21 @@ namespace app\components;
 
 
 use app\models\Activity;
-use yii\base\Component;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
-class ActivityComponent extends Component
+class ActivityComponent extends \app\base\BaseComponent
 {
-    public $activityClass;
-
-    public function init()
-    {
-        parent::init();
-
-        if (empty($this->activityClass)){
-            throw new \Exception('no activity ClassName');
-        }
-    }
-
     /**
      * @return Activity
      */
     public function getModel($activityId = null) {
         if (empty($activityId)) {
-            return new $this->activityClass;
+            return new $this->nameClass;
         }
 
         // здесь получаем сущность пока что из файла.
-        $activity = new $this->activityClass($this->getActivity($activityId));
+        $activity = new $this->nameClass($this->getActivity($activityId));
 
         return $activity;
     }
@@ -41,7 +29,7 @@ class ActivityComponent extends Component
      * @return array
      * @throws \yii\base\Exception
      */
-    private function getActivity($activityId):object {
+    private function getActivity($activityId):\StdClass {
         FileHelper::createDirectory(\Yii::getAlias('@webroot/activities'));
         $jsonFile = \Yii::getAlias('@webroot/activities/').$activityId.'.json';
 
