@@ -15,15 +15,11 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
-    'modules' => [
-        'auth' => [
-            'class' => 'app\modules\auth\Module',
-        ],
-    ],
     'components' => [
         'activity' => ['class'=>\app\components\ActivityComponent::class,'nameClass'=>'\app\models\Activity'],
+        'auth' => ['class'=>\app\components\AuthComponent::class,'nameClass'=>'\app\models\Users'],
         'day' => ['class'=>\app\components\DayComponent::class,'nameClass'=>'\app\models\Day'],
-        'dao' => ['class'=>\app\components\DaoComponent::class,'nameClass'=>'\app\models\Dao'],
+        'dao' => ['class'=>\app\components\DaoComponent::class],
         'formatter' => [
             'dateFormat' => 'dd.MM.yyyy',
             'locale' => 'ru_RU',
@@ -38,7 +34,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\Users',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [

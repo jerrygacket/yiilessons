@@ -7,6 +7,7 @@
  */
 namespace app\base;
 
+use yii\base\Component;
 use yii\web\Controller;
 
 class BaseController extends Controller

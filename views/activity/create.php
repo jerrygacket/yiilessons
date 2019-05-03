@@ -35,7 +35,7 @@ use yii\helpers\Html;
         <?=$form->field($model,'title',['enableClientValidation'=>false,
             'enableAjaxValidation'=>true]);?>
         <?=$form->field($model,'description')->textarea(['row'=>'3']);?>
-        <?=$form->field($model,'startDate')->textInput(['value' => \Yii::$app->formatter->asDate($model->startDate ?? 'now', 'php:d.m.Y')]);?>
+        <?=$form->field($model,'startDate')->textInput(['value' => \Yii::$app->formatter->asDate($model->dateStart ?? 'now', 'php:d.m.Y')]);?>
         <?=$form->field($model,'useNotification')->checkbox();?>
 
         <?=$form->field($model,'email',

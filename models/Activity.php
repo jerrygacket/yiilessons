@@ -7,26 +7,26 @@ use app\models\rules\isRepeatValidator;
 use app\models\rules\StopTitleValidator;
 use yii\base\Model;
 
-class Activity extends Model
+class Activity extends ActivityDB
 {
-    public $activityId = null;
-    public $title;
-    public $description;
-    public $startDate;
-
-    public $email;
+//    public $activityId = null;
+//    public $title;
+//    public $description;
+//    public $dateStart;
+//
+//    public $email;
     public $emailRepeat;
 
-    public $useNotification;
+//    public $useNotification;
+//
+//    public $isBlocking;
+//
+//    public $isRepeat;
+//    public $repeatCount;
+//    public $repeatInterval;
 
-    public $isBlocking;
-
-    public $isRepeat;
-    public $repeatCount;
-    public $repeatInterval;
-
-    public $file;
-    public $files = [];
+//    public $file;
+//    public $files = [];
     public $uploadedFiles = [];
 
     private $repeatCountList=[0=>'Не повторять',1=>'Один раз'];
@@ -37,10 +37,10 @@ class Activity extends Model
 
     public function beforeValidate()
     {
-        if(!empty($this->startDate)){
-            $date=\DateTime::createFromFormat('d.m.Y',$this->startDate);
+        if(!empty($this->dateStart)){
+            $date=\DateTime::createFromFormat('d.m.Y',$this->dateStart);
             if($date){
-                $this->startDate=$date->format('Y-m-d');
+                $this->dateStart=$date->format('Y-m-d');
             }
         }
         return parent::beforeValidate();
@@ -55,13 +55,13 @@ class Activity extends Model
 
             ['description','match', 'pattern' => '/^[a-z]{10,16}$/', 'message'=>'Не менее 10 и не более 16 МАЛЕНЬКИХ ЛАТИНСКИХ букв. Никаких цифр, пробелов и прочего.'],
 
-            ['startDate','date','format' => 'php:Y-m-d'],
-            ['startDate','match', 'pattern' => '/^[0-9]{2}.[0-9]{2}.[0-9]{4}$/', 'message'=>'Неправильная дата. Дата должна быть в формате дд.мм.гггг'],
             ['startDate','required'],
+            ['startDate','match', 'pattern' => '/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', 'message'=>'Неправильная дата. Дата должна быть в формате гггг-мм-дд'],
+            ['startDate','date','format' => 'php:Y-m-d'],
 
             [['isBlocking','useNotification','isRepeat'],'boolean'],
 
-            ['email','email','message' => 'Емелй не прошел валидацию'],
+            ['email','email','message' => 'Емейл не прошел валидацию'],
             [['email','emailRepeat'],'required','when' => function($model){
                 return $model->useNotification == 1;
             }],

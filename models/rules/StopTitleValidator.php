@@ -18,7 +18,7 @@ class StopTitleValidator extends Validator
             $model->addError($attribute,'Значение заголовка не допустимо');
         }
 
-        $component = \Yii::createObject(['class' => DayComponent::class, 'dayClass' => Day::class]);
+        $component = \Yii::createObject(['class' => DayComponent::class, 'nameClass' => Day::class]);
 
         $activities = $component->getActivities();
         foreach ($activities as $activity) {

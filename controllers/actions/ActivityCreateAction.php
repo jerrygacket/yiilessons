@@ -21,7 +21,7 @@ class ActivityCreateAction extends Action
     {
         //$model = \Yii::$app->activity->getModel();
         $model = \Yii::$app->activity->getModel(\Yii::$app->request->get('activityId'));
-        $component = \Yii::createObject(['class' => ActivityComponent::class, 'activityClass' => Activity::class]);
+        $component = \Yii::createObject(['class' => ActivityComponent::class, 'nameClass' => Activity::class]);
 
 
         if (\Yii::$app->request->isPost) {
