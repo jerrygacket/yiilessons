@@ -3,10 +3,18 @@
 
 namespace app\controllers\actions;
 
+use app\components\ActivityComponent;
+use app\components\RbacComponent;
+use app\models\Activity;
 use yii\base\Action;
+use yii\web\HttpException;
 
 class ActivityIndexAction extends Action
 {
+    /**
+     * @var RbacComponent
+     */
+    public $rbac;
 
     /**
      *
@@ -14,7 +22,13 @@ class ActivityIndexAction extends Action
      * @throws \yii\base\InvalidConfigException
      */
     public function run(){
-        $model = \Yii::$app->activity->getModel(\Yii::$app->request->get('activityId')); // TODO: возможно нужна проверка на пустой ИД
+        $component = \Yii::createObject(['class' => ActivityComponent::class, 'nameClass' => Activity::class]);
+        $model = $component->getModel(\Yii::$app->request->get('activityId'));
+
+        if (!$this->rbac->canViewActivity($model)){
+            return \Yii::$app->runAction('auth/signin');
+            //throw new HttpException(403,'No access to create activity');
+        }
 
         return $this->controller->render('index',['model' => $model]);
     }

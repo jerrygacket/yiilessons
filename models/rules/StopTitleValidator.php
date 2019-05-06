@@ -12,6 +12,11 @@ class StopTitleValidator extends Validator
 {
     public $letters=[];
 
+    /**
+     * @param \yii\base\Model $model Activity
+     * @param string $attribute
+     * @throws \yii\base\InvalidConfigException
+     */
     public function validateAttribute($model, $attribute)
     {
         if($model->$attribute=='admin'){

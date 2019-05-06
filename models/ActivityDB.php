@@ -11,6 +11,7 @@ use Yii;
  * @property string $title
  * @property string $description
  * @property string $dateStart
+ * @property string $dateEnd
  * @property int $useNotification
  * @property string $email
  * @property int $isBlocked
@@ -41,7 +42,7 @@ class ActivityDB extends \yii\db\ActiveRecord
         return [
             [['title', 'dateStart', 'user_id'], 'required'],
             [['description'], 'string'],
-            [['dateStart', 'created_on'], 'safe'],
+            [['dateStart', 'dateEnd', 'created_on'], 'safe'],
             [['useNotification', 'isBlocked', 'isRepeat', 'repeatCount', 'repeatInterval', 'user_id'], 'integer'],
             [['title', 'email'], 'string', 'max' => 150],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -58,6 +59,7 @@ class ActivityDB extends \yii\db\ActiveRecord
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
             'dateStart' => Yii::t('app', 'Date Start'),
+            'dateEnd' => Yii::t('app', 'Date End'),
             'useNotification' => Yii::t('app', 'Use Notification'),
             'email' => Yii::t('app', 'Email'),
             'isBlocked' => Yii::t('app', 'Is Blocked'),

@@ -20,6 +20,8 @@ $config = [
         'auth' => ['class'=>\app\components\AuthComponent::class,'nameClass'=>'\app\models\Users'],
         'day' => ['class'=>\app\components\DayComponent::class,'nameClass'=>'\app\models\Day'],
         'dao' => ['class'=>\app\components\DaoComponent::class],
+        'authManager' => ['class'=>'\yii\rbac\DbManager'],
+        'rbac'=>['class'=>\app\components\RbacComponent::class],
         'formatter' => [
             'dateFormat' => 'dd.MM.yyyy',
             'locale' => 'ru_RU',

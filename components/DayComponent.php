@@ -4,6 +4,7 @@
 namespace app\components;
 
 
+use app\models\ActivityDB;
 use app\models\Day;
 use yii\helpers\FileHelper;
 
@@ -22,13 +23,15 @@ class DayComponent extends \app\base\BaseComponent
     }
 
     public function getActivities($dayId=null){
-        FileHelper::createDirectory(\Yii::getAlias('@webroot/activities'));
-        $files = FileHelper::findFiles(\Yii::getAlias('@webroot/activities/'));
-        $activities = [];
-        foreach ($files as $jsonFile) {
-            $activities[] = json_decode(file($jsonFile)[0]);
-        }
+//        FileHelper::createDirectory(\Yii::getAlias('@webroot/activities'));
+//        $files = FileHelper::findFiles(\Yii::getAlias('@webroot/activities/'));
+//        $activities = [];
+//        foreach ($files as $jsonFile) {
+//            $activities[] = json_decode(file($jsonFile)[0]);
+//        }
 
-        return $activities;
+//        return $activities;
+        $user_id = \Yii::$app->user->id;
+        return ActivityDB::find()->andWhere(['user_id'=>$user_id])->all();
     }
 }

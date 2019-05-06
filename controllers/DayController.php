@@ -13,7 +13,7 @@ class DayController extends BaseController
     public function actions()
     {
         return [
-            'index'=>['class'=>DayIndexAction::class],
+            'index'=>['class'=>DayIndexAction::class,'rbac'=>$this->getRbac()],
         ];
     }
 

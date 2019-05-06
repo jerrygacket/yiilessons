@@ -8,7 +8,7 @@ use yii\helpers\Html;
 ?>
 <div class="row">
     <div class="col-12">
-        <h3>Добавить событие</h3>
+        <h3>Редактровать событие</h3>
         <?php
 //            $arr=['onw'=>'tow','two'=>['tree'=>4]];
 //
@@ -31,11 +31,12 @@ use yii\helpers\Html;
 
         <?php $form=\yii\bootstrap\ActiveForm::begin(['options' => ['action'=>'/activity/create','enctype' => 'multipart/form-data']]);?>
 
-        <?=$form->field($model,'activityId')->hiddenInput()->label(false);?>
+        <?=$form->field($model,'id')->hiddenInput()->label(false);?>
         <?=$form->field($model,'title',['enableClientValidation'=>false,
             'enableAjaxValidation'=>true]);?>
         <?=$form->field($model,'description')->textarea(['row'=>'3']);?>
-        <?=$form->field($model,'startDate')->textInput(['value' => \Yii::$app->formatter->asDate($model->dateStart ?? 'now', 'php:d.m.Y')]);?>
+        <?=$form->field($model,'dateStart')->textInput(['value' => \Yii::$app->formatter->asDate($model->dateStart ?? 'now', 'php:d.m.Y')]);?>
+        <?=$form->field($model,'dateEnd')->textInput(['value' => \Yii::$app->formatter->asDate($model->dateEnd ?? 'now', 'php:d.m.Y')]);?>
         <?=$form->field($model,'useNotification')->checkbox();?>
 
         <?=$form->field($model,'email',
@@ -46,7 +47,7 @@ use yii\helpers\Html;
             ['enableClientValidation'=>false,
                 'enableAjaxValidation'=>true]);?>
 
-        <?=$form->field($model,'isBlocking')->checkbox();?>
+        <?=$form->field($model,'isBlocked')->checkbox();?>
         <?=$form->field($model,'isRepeat')->checkbox();?>
         <?=$form->field($model,'repeatCount',
             ['enableClientValidation'=>false,

@@ -7,11 +7,32 @@
  */
 namespace app\base;
 
+use yii\base\Action;
 use yii\base\Component;
 use yii\web\Controller;
 
 class BaseController extends Controller
 {
+
+    protected function getRbac(){
+        return \Yii::$app->rbac;
+    }
+
+    /**
+     * @param $action Action
+     * @return bool
+     * @throws \yii\web\BadRequestHttpException
+     */
+    public function beforeAction($action)
+    {
+        //TODO: redirect to auth
+        if(\Yii::$app->user->isGuest){
+            //throw new HttpException(401,'Need authorization');
+            return \Yii::$app->runAction('auth/signup');
+        }
+        return parent::beforeAction($action);
+    }
+
     /**
      * @param \yii\base\Action $action
      * @param mixed $result
