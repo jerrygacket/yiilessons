@@ -26,6 +26,27 @@ class ActivityComponent extends \app\base\BaseComponent
         return $activity;
     }
 
+    public function getDataProvider($params) {
+        $model = new Activity();
+        $model->load($params);
+
+        $query = $model::find();
+
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id'=>SORT_DESC
+                ]
+            ]
+        ]);
+
+        return $provider;
+    }
+
     /**
      * @param $activityId
      * @return array
