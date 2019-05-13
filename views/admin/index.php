@@ -1,6 +1,8 @@
 <?php
 /**
  * @var $authModel \app\models\Users
+ * @var $activityProvider \yii\data\ActiveDataProvider
+ * @var $activityModel \app\models\Activity
  */
 ?>
 <h1>Панель администратора</h1>

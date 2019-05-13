@@ -29,11 +29,11 @@ class AdminIndexAction extends Action
         $activityComponent = \Yii::createObject(['class' => ActivityComponent::class, 'nameClass' => Activity::class]);
         $activityModel = $activityComponent->getModel();
         $activityProvider = $activityComponent->getDataProvider(\Yii::$app->request->queryParams);
-//
-//        if (!$this->rbac->canViewActivity($model)){
-//            return \Yii::$app->runAction('auth/signin');
-//            //throw new HttpException(403,'No access to create activity');
-//        }
+
+        if (!$this->rbac->canViewActivity($activityModel)){
+            return \Yii::$app->runAction('auth/signin');
+            //throw new HttpException(403,'No access to create activity');
+        }
 
         return $this->controller->render(
             'index',

@@ -47,19 +47,39 @@ class ActivityComponent extends \app\base\BaseComponent
         return $provider;
     }
 
+    public function getSingleDataProvider($params) {
+        $model = new Activity();
+        $model->load($params);
+
+        $query = $model::find()->andWhere(['id'=>$params['activityId']]);
+
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id'=>SORT_DESC
+                ]
+            ]
+        ]);
+
+        return $provider;
+    }
+
     /**
      * @param $activityId
      * @return array
      * @throws \yii\base\Exception
      */
-    private function getActivity($activityId):array {
+    private function getActivity($params=[]):array {
 //        FileHelper::createDirectory(\Yii::getAlias('@webroot/activities'));
 //        $jsonFile = \Yii::getAlias('@webroot/activities/').$activityId.'.json';
 //
 //        return json_decode(file($jsonFile)[0]);
-        $user_id = \Yii::$app->user->id;
 
-        return ActivityDB::find()->andWhere(['user_id'=>$user_id,'id'=>$activityId])->one()->toArray();
+        return ActivityDB::find()->andWhere(['id'=>$params['activityId']])->one()->toArray();
     }
 
     /**
