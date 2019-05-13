@@ -1,7 +1,12 @@
 <?php
 
+use app\models\ActivitySearch;
+
 $params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
+
+$db = file_exists(__DIR__ . '/db_local.php')
+    ? (require __DIR__ . '/db_local.php')
+    : (require __DIR__ . '/db.php');
 
 $config = [
     'id' => 'basic',
@@ -12,14 +17,19 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
-    'modules' => [
-        'auth' => [
-            'class' => 'app\modules\auth\Module',
-        ],
-    ],
     'components' => [
-        'activity' => ['class'=>\app\components\ActivityComponent::class,'activityClass'=>'\app\models\Activity'],
-        'day' => ['class'=>\app\components\DayComponent::class,'dayClass'=>'\app\models\Day'],
+        'activity' => ['class'=>\app\components\ActivityComponent::class,'nameClass'=>'\app\models\Activity'],
+        'auth' => ['class'=>\app\components\AuthComponent::class,'nameClass'=>'\app\models\Users'],
+        'day' => ['class'=>\app\components\DayComponent::class,'nameClass'=>'\app\models\Day'],
+        'dao' => ['class'=>\app\components\DaoComponent::class],
+        'authManager' => ['class'=>'\yii\rbac\DbManager'],
+        'rbac'=>['class'=>\app\components\RbacComponent::class],
+        'formatter' => [
+            'dateFormat' => 'dd.MM.yyyy',
+            'locale' => 'ru_RU',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'RUR',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '3PywPOVdx3ZEdcoMnU-j5tfZzpv8HltH',
@@ -28,7 +38,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\Users',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
