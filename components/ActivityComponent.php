@@ -20,7 +20,6 @@ class ActivityComponent extends \app\base\BaseComponent
             return new $this->nameClass;
         }
 
-        // здесь получаем сущность пока что из файла.
         $activity = new $this->nameClass($this->getActivity($activityId));
 
         return $activity;
@@ -89,6 +88,9 @@ class ActivityComponent extends \app\base\BaseComponent
     public function createActivity(&$model):bool{
 //        $model->file=$this->getUploadedFile($model,'file');
 //        $model->uploadedFiles=$this->getUploadedFile($model,'uploadedFiles');
+        if ($model->user_id == '') {
+            $model->user_id = \Yii::$app->user->id;
+        }
 
         $dateStart=\DateTime::createFromFormat('d.m.Y',$model->dateStart);
         $model->dateStart=$dateStart->format('Y-m-d');

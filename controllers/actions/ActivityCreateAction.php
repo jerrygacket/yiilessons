@@ -4,6 +4,7 @@
 namespace app\controllers\actions;
 
 use app\components\ActivityComponent;
+use app\components\RbacComponent;
 use app\models\Activity;
 use yii\base\Action;
 use yii\bootstrap\ActiveForm;
@@ -30,7 +31,7 @@ class ActivityCreateAction extends Action
         $model = \Yii::$app->activity->getModel(\Yii::$app->request->get('activityId'));
         $component = \Yii::createObject(['class' => ActivityComponent::class, 'nameClass' => Activity::class]);
 
-        if (!$this->rbac->canCreateActivity($model)){
+        if (!$this->rbac->canCreateActivity()){
             //throw new HttpException(403,'No access to create activity')
             return \Yii::$app->runAction('auth/signin');
         }

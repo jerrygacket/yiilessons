@@ -13,4 +13,8 @@ class DateCreatedBehavior extends Behavior
     public function getDateStart() {
         return \Yii::$app->formatter->asDate($this->owner->{$this->attributeName}, 'd.m.Y');
     }
+
+    public function setUpdatedOnDate() {
+        return \Yii::$app->formatter->asDate($this->owner->{$this->attributeName}, 'd.m.Y');
+    }
 }
