@@ -165,4 +165,12 @@ class ActivityComponent extends \app\base\BaseComponent
 //
 //        return $result;
 //    }
+    public function getActivityNotification(string $from) {
+        $activities = $this->getModel()::find()
+            ->andWhere(['useNotification' => 1])
+            ->andWhere('dateStart>=:date',[':date'=>$from])
+            ->andWhere('dateStart<=:date1',[':date1'=>$from.' 23:59:59'])
+            ->all();
+        return $activities;
+    }
 }
