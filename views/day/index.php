@@ -16,36 +16,38 @@
 
 
                 <?php //\app\widgets\Activities\ActivityTableWidget::widget(['model' => $model]) ?>
-                <?=\yii\grid\GridView::widget([
-                    'dataProvider' => $provider,
-                    'filterModel' => $model,
-                    'tableOptions' => [
+                <?php if ($this->beginCache('activities_list',['duration'=>10])):?>
+                    <?=\yii\grid\GridView::widget([
+                        'dataProvider' => $provider,
+                        'filterModel' => $model,
+                        'tableOptions' => [
                             'class' => 'table table-bordered table-hover'
-                    ],
-                    'rowOptions' => function($model,$key,$index,$grid) {
-                        $class = $index%2?'odd':'even';
-                        return ['class'=>$class,'key'=>$key,'index'=>$index];
-                    },
-                    'layout' => "{summary}\n{pager}\n{items}\n{pager}",
-                    'columns' => [
-                        ['class'=>\yii\grid\SerialColumn::class,],
-                        [
-                            'attribute' => 'title',
-                            'value' => function($model) {
-                                return \yii\bootstrap\Html::a(\yii\bootstrap\Html::encode($model->title), ['/activity','activityId'=>$model->id]);
-                            },
-                            'format' => 'html',
                         ],
-                        'dateStart',
-                        'email',
-                        [
-                            'attribute' => 'user.email',
-                            'label' => 'Емаил пользователя'
+                        'rowOptions' => function($model,$key,$index,$grid) {
+                            $class = $index%2?'odd':'even';
+                            return ['class'=>$class,'key'=>$key,'index'=>$index];
+                        },
+                        'layout' => "{summary}\n{pager}\n{items}\n{pager}",
+                        'columns' => [
+                            ['class'=>\yii\grid\SerialColumn::class,],
+                            [
+                                'attribute' => 'title',
+                                'value' => function($model) {
+                                    return \yii\bootstrap\Html::a(\yii\bootstrap\Html::encode($model->title), ['/activity','activityId'=>$model->id]);
+                                },
+                                'format' => 'html',
+                            ],
+                            'dateStart',
+                            'email',
+                            [
+                                'attribute' => 'user.email',
+                                'label' => 'Емаил пользователя'
+                            ]
                         ]
-                    ]
-                ])
-                ?>
-
+                    ])
+                    ?>
+                <?php $this->endCache();?>
+                <?php endif;?>
                 <?= \yii\bootstrap\Html::a('Создать',['/activity/create'], ['class' => 'btn btn-success'])?>
             </div>
         </div>
