@@ -6,6 +6,7 @@ namespace app\components;
 
 use app\models\Activity;
 use app\models\ActivityDB;
+use yii\data\ActiveDataProvider;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
@@ -19,10 +20,52 @@ class ActivityComponent extends \app\base\BaseComponent
             return new $this->nameClass;
         }
 
-        // здесь получаем сущность пока что из файла.
         $activity = new $this->nameClass($this->getActivity($activityId));
 
         return $activity;
+    }
+
+    public function getDataProvider($params) {
+        $model = new Activity();
+        $model->load($params);
+
+        $query = $model::find();
+
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id'=>SORT_DESC
+                ]
+            ]
+        ]);
+
+        return $provider;
+    }
+
+    public function getSingleDataProvider($params) {
+        $model = new Activity();
+        $model->load($params);
+
+        $query = $model::find()->andWhere(['id'=>$params['activityId']]);
+
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id'=>SORT_DESC
+                ]
+            ]
+        ]);
+
+        return $provider;
+
     }
 
     /**
@@ -30,14 +73,13 @@ class ActivityComponent extends \app\base\BaseComponent
      * @return array
      * @throws \yii\base\Exception
      */
-    private function getActivity($activityId):array {
+
+    private function getActivity($params=[]):array {
 //        FileHelper::createDirectory(\Yii::getAlias('@webroot/activities'));
 //        $jsonFile = \Yii::getAlias('@webroot/activities/').$activityId.'.json';
 //
 //        return json_decode(file($jsonFile)[0]);
-        $user_id = \Yii::$app->user->id;
-
-        return ActivityDB::find()->andWhere(['user_id'=>$user_id,'id'=>$activityId])->one()->toArray();
+        return ActivityDB::find()->andWhere(['id'=>$params['activityId']])->one()->toArray();
     }
 
     /**
@@ -47,6 +89,10 @@ class ActivityComponent extends \app\base\BaseComponent
     public function createActivity(&$model):bool{
 //        $model->file=$this->getUploadedFile($model,'file');
 //        $model->uploadedFiles=$this->getUploadedFile($model,'uploadedFiles');
+
+        if ($model->user_id == '') {
+            $model->user_id = \Yii::$app->user->id;
+        }
 
         $dateStart=\DateTime::createFromFormat('d.m.Y',$model->dateStart);
         $model->dateStart=$dateStart->format('Y-m-d');

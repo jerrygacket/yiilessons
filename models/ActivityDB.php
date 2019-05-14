@@ -19,6 +19,8 @@ use Yii;
  * @property int $repeatCount
  * @property int $repeatInterval
  * @property string $created_on
+ * @property string $updated_on
+
  * @property int $user_id
  *
  * @property Users $user
@@ -42,10 +44,11 @@ class ActivityDB extends \yii\db\ActiveRecord
         return [
             [['title', 'dateStart', 'user_id'], 'required'],
             [['description'], 'string'],
-            [['dateStart', 'dateEnd', 'created_on'], 'safe'],
+
+            [['dateStart', 'dateEnd', 'created_on','updated_on'], 'safe'],
             [['useNotification', 'isBlocked', 'isRepeat', 'repeatCount', 'repeatInterval', 'user_id'], 'integer'],
             [['title', 'email'], 'string', 'max' => 150],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -67,6 +70,7 @@ class ActivityDB extends \yii\db\ActiveRecord
             'repeatCount' => Yii::t('app', 'Repeat Count'),
             'repeatInterval' => Yii::t('app', 'Repeat Interval'),
             'created_on' => Yii::t('app', 'Created On'),
+            'updated_on' => Yii::t('app', 'Updated On'),
             'user_id' => Yii::t('app', 'User ID'),
         ];
     }
@@ -76,7 +80,7 @@ class ActivityDB extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
 
     /**

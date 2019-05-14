@@ -18,7 +18,7 @@ class AuthSignInAction extends Action
         if(\Yii::$app->request->isPost){
             $model->load(\Yii::$app->request->post());
             if($component->authUser($model)){
-                return $this->controller->redirect(['/activity/create']);
+                return $this->controller->redirect(['/day']);
             }
         }
 

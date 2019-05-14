@@ -1,5 +1,7 @@
 <?php
 
+use app\models\ActivitySearch;
+
 $params = require __DIR__ . '/params.php';
 
 $db = file_exists(__DIR__ . '/db_local.php')

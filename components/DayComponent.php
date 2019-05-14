@@ -4,8 +4,10 @@
 namespace app\components;
 
 
-use app\models\ActivityDB;
+use app\models\Activity;
 use app\models\Day;
+use yii\data\ActiveDataProvider;
+use yii\data\Pagination;
 use yii\helpers\FileHelper;
 
 class DayComponent extends \app\base\BaseComponent
@@ -14,11 +16,10 @@ class DayComponent extends \app\base\BaseComponent
     /**
      * @return Day
      */
-    public function getModel() {
+    public function getModel($params = []) {
 
         $day = new $this->nameClass;
-        $day->activities = $this->getActivities();
-
+//        $day->activities = $this->getActivities();
         return $day;
     }
 
@@ -32,6 +33,29 @@ class DayComponent extends \app\base\BaseComponent
 
 //        return $activities;
         $user_id = \Yii::$app->user->id;
-        return ActivityDB::find()->andWhere(['user_id'=>$user_id])->all();
+
+        return Activity::find()->andWhere(['user_id'=>$user_id])->all();
+    }
+
+    public function getDataProvider($params) {
+        $user_id = \Yii::$app->user->id;
+        $model = new Activity();
+        $model->load($params);
+
+        $query = $model::find()->andWhere(['user_id'=>$user_id])->andFilterWhere(['like','email',$model->email]);
+
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id'=>SORT_DESC
+                ]
+            ]
+        ]);
+
+        return $provider;
     }
 }

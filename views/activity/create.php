@@ -32,6 +32,9 @@ use yii\helpers\Html;
         <?php $form=\yii\bootstrap\ActiveForm::begin(['options' => ['action'=>'/activity/create','enctype' => 'multipart/form-data']]);?>
 
         <?=$form->field($model,'id')->hiddenInput()->label(false);?>
+
+        <?=$form->field($model,'user_id')->hiddenInput()->label(false);?>
+
         <?=$form->field($model,'title',['enableClientValidation'=>false,
             'enableAjaxValidation'=>true]);?>
         <?=$form->field($model,'description')->textarea(['row'=>'3']);?>

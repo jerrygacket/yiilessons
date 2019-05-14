@@ -2,6 +2,7 @@
 /**
  * @var $model \app\models\Activity
  * @var $this \yii\web\View
+ * @var $provider \yii\data\ActiveDataProvider
  */
 ?>
 
