@@ -11,24 +11,7 @@ use yii\db\Expression;
 
 class Activity extends ActivityDB
 {
-//    public $id = null;
-//    public $title;
-//    public $description;
-//    public $dateStart;
-//
-//    public $email;
     public $emailRepeat;
-
-//    public $useNotification;
-//
-//    public $isBlocked;
-//
-//    public $isRepeat;
-//    public $repeatCount;
-//    public $repeatInterval;
-
-//    public $file;
-//    public $files = [];
     public $uploadedFiles = [];
 
     private $repeatCountList=[0=>'Не повторять',1=>'Один раз'];

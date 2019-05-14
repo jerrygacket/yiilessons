@@ -6,6 +6,10 @@
  */
 ?>
 
+<?=\yii\grid\GridView::widget([
+    'dataProvider' => $provider,
+])
+?>
 <?php if (!empty($model->id)) {
     echo '<h3>'.\yii\helpers\Html::encode($model->title).'</h3>';
 

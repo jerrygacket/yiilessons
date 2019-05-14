@@ -14,13 +14,13 @@ class m190429_064842_insertData extends Migration
     {
         $this->insert('users',[
             'id'=>1,
-            'email'=>'test@test.ru',
-            'password_hash'=>'qwerqwer',
+            'email'=>'user@test.ru',
+            'password_hash'=>\Yii::$app->security->generatePasswordHash('123456'),
         ]);
         $this->insert('users',[
             'id'=>2,
-            'email'=>'test1@test.ru',
-            'password_hash'=>'qwerqwer',
+            'email'=>'admin@test.ru',
+            'password_hash'=>\Yii::$app->security->generatePasswordHash('123456'),
         ]);
         $this->batchInsert('activity',[
             'title','dateStart','user_id','useNotification'],[

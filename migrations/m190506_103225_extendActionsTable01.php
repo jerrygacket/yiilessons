@@ -13,7 +13,7 @@ class m190506_103225_extendActionsTable01 extends Migration
     public function safeUp()
     {
         $this->addColumn('activity','dateEnd',
-            $this->date()->notNull());
+            $this->date());
 
     }
 

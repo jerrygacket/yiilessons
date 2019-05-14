@@ -36,19 +36,22 @@ AppAsset::register($this);
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
                 ['label' => 'Добавить событие', 'url' => ['/activity/create']],
-                ['label' => 'Список событий', 'url' => ['/activity/list']],
+                ['label' => 'Список событий', 'url' => ['/activity/index']],
                 Yii::$app->user->isGuest ? (
-                ['label' => 'Войти | Зарегистрироваться', 'url' => ['/auth/sign-in']]
+                ['label' => 'Войти', 'url' => ['/auth/signin']]
                 ) : (
                     '<li>'
-                    . Html::beginForm(['/auth/logout'], 'post')
+                    . Html::beginForm(['/site/logout'], 'post')
                     . Html::submitButton(
                         'Logout (' . Yii::$app->user->identity->username . ')',
                         ['class' => 'btn btn-link logout']
                     )
                     . Html::endForm()
                     . '</li>'
-                )
+                ),
+                Yii::$app->user->isGuest ? (
+                ['label' => 'Зарегистрироваться', 'url' => ['/auth/signup']]
+                ) : ('')
             ],
         ]);?>
         <?php NavBar::end();?>
