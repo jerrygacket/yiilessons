@@ -20,7 +20,6 @@ class DayComponent extends \app\base\BaseComponent
 
         $day = new $this->nameClass;
 //        $day->activities = $this->getActivities();
-
         return $day;
     }
 

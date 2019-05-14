@@ -65,6 +65,7 @@ class ActivityComponent extends \app\base\BaseComponent
         ]);
 
         return $provider;
+
     }
 
     /**
@@ -72,12 +73,12 @@ class ActivityComponent extends \app\base\BaseComponent
      * @return array
      * @throws \yii\base\Exception
      */
+
     private function getActivity($params=[]):array {
 //        FileHelper::createDirectory(\Yii::getAlias('@webroot/activities'));
 //        $jsonFile = \Yii::getAlias('@webroot/activities/').$activityId.'.json';
 //
 //        return json_decode(file($jsonFile)[0]);
-
         return ActivityDB::find()->andWhere(['id'=>$params['activityId']])->one()->toArray();
     }
 
@@ -88,6 +89,7 @@ class ActivityComponent extends \app\base\BaseComponent
     public function createActivity(&$model):bool{
 //        $model->file=$this->getUploadedFile($model,'file');
 //        $model->uploadedFiles=$this->getUploadedFile($model,'uploadedFiles');
+
         if ($model->user_id == '') {
             $model->user_id = \Yii::$app->user->id;
         }

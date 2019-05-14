@@ -20,6 +20,7 @@ use Yii;
  * @property int $repeatInterval
  * @property string $created_on
  * @property string $updated_on
+
  * @property int $user_id
  *
  * @property Users $user
@@ -43,6 +44,7 @@ class ActivityDB extends \yii\db\ActiveRecord
         return [
             [['title', 'dateStart', 'user_id'], 'required'],
             [['description'], 'string'],
+
             [['dateStart', 'dateEnd', 'created_on','updated_on'], 'safe'],
             [['useNotification', 'isBlocked', 'isRepeat', 'repeatCount', 'repeatInterval', 'user_id'], 'integer'],
             [['title', 'email'], 'string', 'max' => 150],

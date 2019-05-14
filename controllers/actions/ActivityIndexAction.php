@@ -23,6 +23,7 @@ class ActivityIndexAction extends Action
      */
     public function run(){
         $component = \Yii::createObject(['class' => ActivityComponent::class, 'nameClass' => Activity::class]);
+
         $model = $component->getModel(\Yii::$app->request->queryParams);
 
         if (!$this->rbac->canViewActivity($model)){

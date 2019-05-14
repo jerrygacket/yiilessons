@@ -5,6 +5,7 @@ $db = file_exists(__DIR__ . '/db_local.php')
     ? (require __DIR__ . '/db_local.php')
     : (require __DIR__ . '/db.php');
 
+
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),

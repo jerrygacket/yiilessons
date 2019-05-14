@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+
 use app\behaviors\DateCreatedBehavior;
 use app\models\rules\StopTitleValidator;
 use yii\behaviors\TimestampBehavior;
@@ -52,6 +53,7 @@ class Activity extends ActivityDB
             ]
 
         ];
+
     }
 
 //    public function beforeValidate()
@@ -88,6 +90,7 @@ class Activity extends ActivityDB
             ['description','match', 'pattern' => '/^[a-z]{10,16}$/', 'message'=>'Не менее 10 и не более 16 МАЛЕНЬКИХ ЛАТИНСКИХ букв. Никаких цифр, пробелов и прочего.'],
 
             ['dateStart','required'],
+
 //            ['dateStart','match', 'pattern' => '/^[0-9]{2}.[0-9]{2}.[0-9]{4}$/', 'message'=>'Неправильная дата. Дата должна быть в формате d.m.Y'],
 //            ['dateStart','date','format' => 'php:d.m.Y'],
 
