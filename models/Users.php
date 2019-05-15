@@ -42,7 +42,7 @@ class Users extends UsersBase implements IdentityInterface
     {
         return array_merge([
             ['password','string','min'=>6],
-            ['email','email'],
+            ['email','email','message' => 'Емейл не прошел валидацию'],
             ['email','unique','on' => self::SCENARIO_REGISTRATION],
             ['email','exist','on' => self::SCENARIO_AUTHORIZATION],
         ], parent::rules()

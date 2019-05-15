@@ -30,4 +30,24 @@ class UserComponent extends BaseComponent
         return $provider;
 
     }
+
+    /**
+     * @param $model Users
+     * @return bool
+     */
+    public function saveUser(&$model):bool{
+        if ($model->id == '' || $model->id != \Yii::$app->user->id) {
+            return false;
+        }
+
+        $currentUser = Users::findOne(\Yii::$app->user->id);
+        $currentUser->email = $model->email;
+
+        if (!$currentUser->save()) {
+            $model->getErrors();
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -42,6 +42,13 @@
                             [
                                 'attribute' => 'user.email',
                                 'label' => 'Емаил пользователя'
+                            ],
+                            [
+                                'label' => 'Управление',
+                                'format' => 'html',
+                                'value' => function($model) {
+                                    return \yii\bootstrap\Html::a('Править',['/activity/edit','activityId'=>$model->id], ['class' => 'btn btn-warning']);
+                                },
                             ]
                         ]
                     ])

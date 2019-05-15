@@ -15,12 +15,14 @@ class ActivityComponent extends \app\base\BaseComponent
     /**
      * @return Activity
      */
-    public function getModel($activityId = null) {
-        if (empty($activityId)) {
-            return new $this->nameClass;
+    public function getModel($params=[]) {
+        $model = new $this->nameClass;
+
+        if (empty($params['activityId'])) {
+            return $model;
         }
 
-        $activity = new $this->nameClass($this->getActivity($activityId));
+        $activity = $model::findOne(['id'=>$params['activityId']]);
 
         return $activity;
     }

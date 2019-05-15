@@ -62,12 +62,12 @@ use yii\helpers\Html;
         )->input('number',['value'=>($model->repeatInterval ?? '0') ]);?>
 
         <?php // выводим уже существующие рисунки если есть
-        if (!empty($model->files)) {
-            echo '<h3>Существующие файлы</h3>';
-            foreach ($model->files as $file) {
-                echo \yii\helpers\Html::img('/images/'.$file,['width'=>200, 'alt'=>'no activity image']);
-            }
-        }
+//        if (!empty($model->files)) {
+//            echo '<h3>Существующие файлы</h3>';
+//            foreach ($model->files as $file) {
+//                echo \yii\helpers\Html::img('/images/'.$file,['width'=>200, 'alt'=>'no activity image']);
+//            }
+//        }
         ?>
 
         <?=$form->field($model,'uploadedFiles[]')->fileInput(['multiple'=>true])?>

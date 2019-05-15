@@ -28,13 +28,16 @@ class ActivityCreateAction extends Action
     public function run()
     {
         //$model = \Yii::$app->activity->getModel();
-        $model = \Yii::$app->activity->getModel(\Yii::$app->request->get('activityId'));
+        //$model = \Yii::$app->activity->getModel(\Yii::$app->request->get('activityId'));
         $component = \Yii::createObject(['class' => ActivityComponent::class, 'nameClass' => Activity::class]);
+        $model = $component->getModel(\Yii::$app->request->queryParams);
 
         if (!$this->rbac->canCreateActivity()){
             //throw new HttpException(403,'No access to create activity')
             return \Yii::$app->runAction('auth/signin');
         }
+
+        $provider = $component->getSingleDataProvider(\Yii::$app->request->queryParams);
 
         if (\Yii::$app->request->isPost) {
             $model->load(\Yii::$app->request->post());
@@ -44,10 +47,10 @@ class ActivityCreateAction extends Action
             }
 
             if ($component->createActivity($model)) {
-                return $this->controller->render('index',['model'=>$model]);
+                return $this->controller->render('index',['model'=>$model, 'provider'=>$provider]);
             }
         }
 
-        return $this->controller->render('create', ['model' => $model]);
+        return $this->controller->render('create', ['model' => $model, 'provider'=>$provider]);
     }
 }

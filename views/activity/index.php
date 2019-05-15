@@ -26,13 +26,13 @@
         ],
     ]);
 
-    if (!empty($model->files) && is_array($model->files)){
-        foreach ($model->files as $file) {
-            echo \yii\helpers\Html::img('/images/'.$file,['width'=>200, 'alt'=>'no activity image']);
-        }
-    } else {
-        echo '<p>Нет файлов</p>';
-    }
+//    if (!empty($model->files) && is_array($model->files)){
+//        foreach ($model->files as $file) {
+//            echo \yii\helpers\Html::img('/images/'.$file,['width'=>200, 'alt'=>'no activity image']);
+//        }
+//    } else {
+//        echo '<p>Нет файлов</p>';
+//    }
 
 
 
