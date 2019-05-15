@@ -167,12 +167,37 @@ class ActivityComponent extends \app\base\BaseComponent
 //
 //        return $result;
 //    }
-    public function getActivityNotification(string $from) {
-        $activities = $this->getModel()::find()
-            ->andWhere(['useNotification' => 1])
-            ->andWhere('dateStart>=:date',[':date'=>$from])
-            ->andWhere('dateStart<=:date1',[':date1'=>$from.' 23:59:59'])
-            ->all();
-        return $activities;
+
+    /**
+     * @param string $from
+     * @param null $userId
+     * @param null $email
+     * @return ActiveDataProvider
+     */
+    public function getActivityNotification(string $from, $userId=null, $email=null) {
+        $query = $this->getModel()::find()->cache(10);
+
+        $query->andWhere(['useNotification' => 1]);
+
+        if ($userId) {
+            $query->andWhere(['user_id' => $userId]);
+        }
+        if ($email) {
+            $query->andWhere(['email' => $email]);
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $dataProvider;
+
+
+//        $activities = $this->getModel()::find()
+//            ->andWhere(['useNotification' => 1])
+//            ->andWhere('dateStart>=:date',[':date'=>$from])
+//            ->andWhere('dateStart<=:date1',[':date1'=>$from.' 23:59:59'])
+//            ->all();
+//        return $activities;
     }
 }

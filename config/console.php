@@ -36,8 +36,8 @@ $config = [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.yandex.ru',
-                'username' => 'timmykry@yandex.ru',
-                'password' => 'Njhf,erf38',
+                'username' => 'user',
+                'password' => 'password',
                 'port' => 587,
                 'encryption' => 'tls'
             ]
@@ -60,6 +60,9 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
     ];
+}
+if (file_exists(__DIR__ . '/console_local.php')) {
+    $config['components']['mailer'] = require __DIR__ . '/console_local.php';
 }
 
 return $config;
