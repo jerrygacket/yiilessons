@@ -1,13 +1,12 @@
 <?php
 /**       * @var $this \yii\web\View
- * @var $model \app\models\Day
+ * @var $model \app\models\Calendar
  */
 ?>
 
         <h4>Список дел</h4>
         <ul>
             <?php
-            //заготовка
             foreach ($model->activities as $activity) {
                 echo '<li>'.$activity->title;
                 echo ' '.\yii\bootstrap\Html::a('Посмотреть',['/activity','activityId'=>$activity->id], ['class' => 'btn btn-success']);

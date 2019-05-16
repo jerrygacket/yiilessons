@@ -19,7 +19,7 @@
                 <?php if ($this->beginCache('activities_list',['duration'=>10])):?>
                     <?=\yii\grid\GridView::widget([
                         'dataProvider' => $provider,
-                        'filterModel' => $model,
+//                        'filterModel' => $model,
                         'tableOptions' => [
                             'class' => 'table table-bordered table-hover'
                         ],

@@ -35,6 +35,7 @@ AppAsset::register($this);
         <?=Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
+                ['label' => 'Мой календарь', 'url' => ['/calendar']],
                 ['label' => 'Добавить событие', 'url' => ['/activity/create']],
                 ['label' => 'Список событий', 'url' => ['/activity/index']],
                 Yii::$app->user->isGuest ? (
