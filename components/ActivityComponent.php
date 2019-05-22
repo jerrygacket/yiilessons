@@ -15,12 +15,14 @@ class ActivityComponent extends \app\base\BaseComponent
     /**
      * @return Activity
      */
-    public function getModel($activityId = null) {
-        if (empty($activityId)) {
-            return new $this->nameClass;
+    public function getModel($params=[]) {
+        $model = new $this->nameClass;
+
+        if (empty($params['activityId'])) {
+            return $model;
         }
 
-        $activity = new $this->nameClass($this->getActivity($activityId));
+        $activity = $model::findOne(['id'=>$params['activityId']]);
 
         return $activity;
     }
@@ -165,4 +167,37 @@ class ActivityComponent extends \app\base\BaseComponent
 //
 //        return $result;
 //    }
+
+    /**
+     * @param string $from
+     * @param null $userId
+     * @param null $email
+     * @return ActiveDataProvider
+     */
+    public function getActivityNotification(string $from, $userId=null, $email=null) {
+        $query = $this->getModel()::find()->cache(10);
+
+        $query->andWhere(['useNotification' => 1]);
+
+        if ($userId) {
+            $query->andWhere(['user_id' => $userId]);
+        }
+        if ($email) {
+            $query->andWhere(['email' => $email]);
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $dataProvider;
+
+
+//        $activities = $this->getModel()::find()
+//            ->andWhere(['useNotification' => 1])
+//            ->andWhere('dateStart>=:date',[':date'=>$from])
+//            ->andWhere('dateStart<=:date1',[':date1'=>$from.' 23:59:59'])
+//            ->all();
+//        return $activities;
+    }
 }

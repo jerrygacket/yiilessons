@@ -17,6 +17,7 @@ $config = [
         '@tests' => '@app/tests',
     ],
     'components' => [
+        'activity' => ['class'=>\app\components\ActivityComponent::class,'nameClass'=>'\app\models\Activity'],
         'authManager' => ['class'=>'\yii\rbac\DbManager'],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -28,6 +29,18 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'enableSwiftMailerLogging' => true,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.yandex.ru',
+                'username' => 'user',
+                'password' => 'password',
+                'port' => 587,
+                'encryption' => 'tls'
+            ]
         ],
         'db' => $db,
     ],
@@ -47,6 +60,9 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
     ];
+}
+if (file_exists(__DIR__ . '/console_local.php')) {
+    $config['components']['mailer'] = require __DIR__ . '/console_local.php';
 }
 
 return $config;

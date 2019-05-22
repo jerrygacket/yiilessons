@@ -4,24 +4,20 @@
 namespace app\controllers\actions;
 
 
-use app\components\DayComponent;
-use app\models\Day;
-use yii\base\Action;
+use app\components\CalendarComponent;
 use app\components\RbacComponent;
+use app\models\Calendar;
+use yii\base\Action;
 
-class DayIndexAction extends Action
+class CalendarIndexAction extends Action
 {
     /**
      * @var RbacComponent
      */
     public $rbac;
 
-    /**
-     * @return mixed
-     * @throws \yii\base\InvalidConfigException
-     */
     public function run(){
-        $component = \Yii::createObject(['class' => DayComponent::class, 'nameClass' => Day::class]);
+        $component = \Yii::createObject(['class' => CalendarComponent::class, 'nameClass' => Calendar::class]);
         $model = $component->getModel(\Yii::$app->request->queryParams);
 
         if (!$this->rbac->canViewActivity($model)){
@@ -31,6 +27,6 @@ class DayIndexAction extends Action
 
         $provider = $component->getDataProvider(\Yii::$app->request->queryParams,$model);
 
-        return $this->controller->render('index',['model' => $model, 'provider' => $provider]);
+        return $this->controller->render('index',['model' => $model,'provider'=>$provider]);
     }
 }

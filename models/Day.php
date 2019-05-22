@@ -11,6 +11,7 @@ class Day extends Model
     public $title;
     public $isWork;
     public $activities;
+    public $currentDate;
 
     public function rules()
     {
