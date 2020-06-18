@@ -6,8 +6,8 @@ $mailer=[
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.yandex.ru',
-                'username' => 'timmykry@yandex.ru',
-                'password' => 'Njhf,erf38',
+                'username' => '',
+                'password' => '',
                 'port' => 587,
                 'encryption' => 'tls'
             ]
